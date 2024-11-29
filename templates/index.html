@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poetic Word Guesser</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Georgia', serif;
+        }
+        .game-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        .poem-box {
+            background-color: #f8f9fa;
+            border-left: 5px solid #6c757d;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .hints-box {
+            background-color: #e9ecef;
+            border-left: 5px solid #28a745;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .guesses-left {
+            font-weight: bold;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="game-container text-center">
+            <h1 class="mb-4">🧩 Poetic Word Guesser</h1>
+            
+            {% if message %}
+                <div class="alert {% if 'Well done!' in message %}alert-success{% elif 'Game Over' in message %}alert-danger{% else %}alert-info{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+
+            {% if guesses_left != None %}
+                <p class="guesses-left">Guesses Left: {{ guesses_left }}</p>
+                
+                {% if retrieved_poems %}
+                    <div class="poem-box">
+                        <h5>🌟 Poems:</h5>
+                        {% for poem in retrieved_poems %}
+                            <p>{{ poem }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if hints %}
+                    <div class="hints-box">
+                        <h5>🔍 Hints:</h5>
+                        <p>{{ hints }}</p>
+                    </div>
+                {% endif %}
+
+                <form method="POST" id="guessForm">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="guess" placeholder="Enter your guess" required>
+                        <button class="btn btn-primary" type="submit">Guess</button>
+                    </div>
+                </form>
+            {% else %}
+                <a href="/" class="btn btn-success btn-lg">Start New Game</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
